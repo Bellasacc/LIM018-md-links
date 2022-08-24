@@ -5,9 +5,12 @@ const existsPath = (route) => fs.existsSync(route);
 
 const extNameFile = (route) => path.extname(route);
 
-console.log(extNameFile('prueba.md'));
-console.log(extNameFile('D:\\Laboratoria\\LIM018-md-links\\prueba.md'));
-console.log(extNameFile('../prueba/ejemplo.txt'));
+const readFileMd = (file) => {
+  const readFile = fs.readFileSync(file, 'utf-8');
+  return readFile;
+};
+
+console.log(readFileMd('prueba.md'));
 
 module.exports = {
   existsPath,
