@@ -7,7 +7,10 @@ const extNameFile = (route) => path.extname(route);
 
 const readFileMd = (file) => {
   const readFile = fs.readFileSync(file, 'utf-8');
-  return readFile;
+  const exp = /\[(.*?)\]\(.*?\)/gm;
+  const dataFile = readFile.match(exp);
+
+  return dataFile;
 };
 
 console.log(readFileMd('prueba.md'));
