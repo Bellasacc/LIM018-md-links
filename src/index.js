@@ -20,12 +20,13 @@ const readFileMd = (file) => {
     });
     return dataFile.filter((data) => data.href.startsWith('http') || data.href.startsWith('www'));
   }
-  return 'no se encontro links';
+  return 'No se encontro links';
 };
 
-console.log(readFileMd('prueba.md'));
+console.log(readFileMd('./prueba/prueba1.md'));
 
 module.exports = {
   existsPath,
   extNameFile,
+  readFileMd,
 };
