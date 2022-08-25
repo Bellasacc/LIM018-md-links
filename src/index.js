@@ -1,5 +1,6 @@
 const fs = require('node:fs');
 const path = require('node:path');
+const axios = require('axios');
 
 const existsPath = (route) => fs.existsSync(route);
 
@@ -23,7 +24,22 @@ const readFileMd = (file) => {
   return 'No se encontro links';
 };
 
-console.log(readFileMd('./prueba/prueba1.md'));
+const validateLinks = (urls) => {
+  const arrayLinks = urls;
+  return arrayLinks.map((url) => axios.get(url.href)
+    .then((response) => ({ ...url, status: response.status, message: response.statusText }))
+    .catch((error) => (error.response ? { ...url, status: error.response.status, message: 'fail' }
+      : { ...url, status: error.errno, message: 'fail' })));
+};
+
+let linksFound = readFileMd('README.md');
+
+linksFound = validateLinks(linksFound);
+
+Promise.all(linksFound)
+  .then((response) => {
+    console.log(response);
+  });
 
 module.exports = {
   existsPath,
