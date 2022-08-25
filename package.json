@@ -1,7 +1,28 @@
 {
   "name": "md-links",
   "version": "0.1.0",
+  "description": "libreria links markdown",
+  "main": "src/index.js",
+  "keywords": [
+    "javascript",
+    "jest"
+  ],
+  "scripts": {
+    "eslint": "eslint --ext .js src/ test/",
+    "pretest": "npm run eslint",
+    "test": "jest --coverage"
+  },
+  "devDependencies": {
+    "eslint": "^8.3.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jest": "^25.3.0",
+    "jest": "^27.0.1"
+  },
   "engines": {
     "node": ">=16.x"
+  },
+  "dependencies": {
+    "axios": "^0.27.2"
   }
 }
