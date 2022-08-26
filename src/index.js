@@ -60,7 +60,10 @@ const mdLinks = (route, options) => {
   const promise = new Promise((resolve, reject) => {
     if (existsPath(route)) {
       const links = getLinks(route);
-      resolve(links);
+      if (links.length > 0) {
+        resolve(links);
+      }
+      reject(new Error('No se encontro links'));
     } else {
       reject(new Error('no existe la ruta'));
     }
