@@ -6,6 +6,8 @@ const {
   extNameFile,
   readFileMd,
   validateLinks,
+  statFile,
+  dirOrFile,
 } = require('../src/index');
 
 jest.mock('axios');
@@ -56,7 +58,7 @@ describe('readFileMd', () => {
     expect(readFileMd('prueba.md')).toEqual(arrayLinks);
   });
   it('Para la ruta ./prueba/prueba1.md deberia retornar un mensaje: No se encontro links', () => {
-    expect(readFileMd('./prueba/prueba1.md')).toBe('No se encontro links');
+    expect(readFileMd('./prueba/prueba2/prueba3/prueba3.md')).toBe('No se encontro links');
   });
 });
 describe('validateLinks', () => {
@@ -145,7 +147,29 @@ describe('validateLinks', () => {
       });
   });
 });
-
+describe('statFile', () => {
+  it('Para la ruta prueba.md deberia retornar true', () => {
+    expect(statFile('prueba.md')).toBe(true);
+  });
+  it('Para la ruta de un directorio: prueba deberia retornar false', () => {
+    expect(statFile('prueba')).toBe(false);
+  });
+});
+describe('dirOrFile', () => {
+  it('Para la ruta prueba.md deberia retornar un array con la ruta de un archivo', () => {
+    expect(dirOrFile('prueba.md')).toEqual(['prueba.md']);
+  });
+  it('Para la ruta de un directorio: prueba, deberia retornar un array con las rutas de los archivos encontrados', () => {
+    const arrayFiles = [
+      'prueba\\ejemplo.txt',
+      'prueba\\prueba1.md',
+      'prueba\\prueba2\\prueba2.md',
+      'prueba\\prueba2\\prueba3\\prueba3.md',
+      'prueba\\prueba2\\prueba3\\prueba3.txt',
+    ];
+    expect(dirOrFile('prueba')).toEqual(arrayFiles);
+  });
+});
 /* describe('mdLinks', () => {
   it('should...', () => {
     console.log(mdLinks);
