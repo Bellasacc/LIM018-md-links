@@ -48,8 +48,20 @@ const dirOrFile = (route) => {
   const filenames = fs.readdirSync(route); // Obteniendo los files de un directorio
   return filenames.map((file) => dirOrFile(path.join(route, file))).flat();
 };
-const route = 'prueba';
-console.log(dirOrFile(route));
+
+const mdLinks = (route, options) => {
+  const promise = new Promise((resolve, reject) => {
+    if (existsPath(route)) {
+      if (extNameFile(route)) {
+        const links = readFileMd(route);
+        resolve(links);
+      }
+    } else {
+      reject(new Error('no existe la ruta'));
+    }
+  });
+  return promise;
+};
 
 module.exports = {
   existsPath,
@@ -58,4 +70,5 @@ module.exports = {
   validateLinks,
   statFile,
   dirOrFile,
+  mdLinks,
 };
