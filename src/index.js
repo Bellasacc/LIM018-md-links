@@ -49,13 +49,18 @@ const dirOrFile = (route) => {
   return filenames.map((file) => dirOrFile(path.join(route, file))).flat();
 };
 
+const getLinks = (route) => {
+  let files = dirOrFile(route);
+  files = files.filter((file) => extNameFile(file) === '.md');
+  const links = files.map((file) => readFileMd(file)).filter((file) => typeof file !== 'string').flat();
+  return links;
+};
+
 const mdLinks = (route, options) => {
   const promise = new Promise((resolve, reject) => {
     if (existsPath(route)) {
-      if (extNameFile(route)) {
-        const links = readFileMd(route);
-        resolve(links);
-      }
+      const links = getLinks(route);
+      resolve(links);
     } else {
       reject(new Error('no existe la ruta'));
     }
