@@ -1,6 +1,14 @@
 /* const mdLinks = require('../src/index'); */
+const axios = require('axios');
 
-const { existsPath, extNameFile, readFileMd } = require('../src/index');
+const {
+  existsPath,
+  extNameFile,
+  readFileMd,
+  validateLinks,
+} = require('../src/index');
+
+jest.mock('axios');
 
 describe('existsPath', () => {
   it('Para la ruta prueba.md deberia retornar true', () => {
@@ -31,19 +39,110 @@ describe('readFileMd', () => {
       text: 'Markdown',
       file: 'prueba.md',
     },
-    { href: 'https://nodejs.org/', text: 'Node.js', file: 'prueba.md' },
+    { href: 'https://nodejs.o/', text: 'Node.js', file: 'prueba.md' },
     {
       href: 'https://user-images.githubusercontent.com/110297/42118443-b7a5f1f0-7bc8-11e8-96ad-9cc5593715a6.jpg',
       text: 'md-links',
       file: 'prueba.md',
     },
-    { href: 'www.google.com', text: 'google', file: 'prueba.md' },
+    { href: 'https://www.google.com', text: 'google', file: 'prueba.md' },
+    {
+      file: 'prueba.md',
+      href: 'https://developer.mozilla.org/es/docs/Learn/JavaScript/Building_blocks/Functions',
+      text: 'Funciones — bloques de código reutilizables - MDN',
+    },
   ];
   it('Para la ruta prueba.md deberia retornar un array de links', () => {
     expect(readFileMd('prueba.md')).toEqual(arrayLinks);
   });
   it('Para la ruta ./prueba/prueba1.md deberia retornar un mensaje: No se encontro links', () => {
     expect(readFileMd('./prueba/prueba1.md')).toBe('No se encontro links');
+  });
+});
+describe('validateLinks', () => {
+  it('Para la ruta prueba.md deberia retornar un array de links con status 200 y message OK', (done) => {
+    const arrayLinks = [
+      {
+        href: 'https://es.wikipedia.org/wiki/Markdown',
+        text: 'Markdown',
+        file: 'prueba.md',
+      },
+    ];
+    const arrayLinksValidate = [
+      {
+        href: 'https://es.wikipedia.org/wiki/Markdown',
+        text: 'Markdown',
+        file: 'prueba.md',
+        status: 200,
+        message: 'OK',
+      },
+    ];
+    axios.get.mockResolvedValueOnce({
+      status: 200,
+      statusText: 'OK',
+    });
+    const linksFound = validateLinks(arrayLinks);
+    Promise.all(linksFound)
+      .then((response) => {
+        expect(response).toEqual(arrayLinksValidate);
+        done();
+      });
+  });
+  it('Para la ruta prueba.md deberia retornar un array de links con status 404 y message fail', (done) => {
+    const arrayLinks = [
+      {
+        href: 'https://developer.mozilla.org/es/docs/Learn/JavaScript/Building_blocks/Functions',
+        text: 'Funciones — bloques de código reutilizables - MDN',
+        file: 'prueba.md',
+      },
+    ];
+    const arrayLinksValidate = [
+      {
+        href: 'https://developer.mozilla.org/es/docs/Learn/JavaScript/Building_blocks/Functions',
+        text: 'Funciones — bloques de código reutilizables - MDN',
+        file: 'prueba.md',
+        status: 404,
+        message: 'fail',
+      },
+    ];
+    axios.get.mockRejectedValueOnce({
+      response: {
+        status: 404,
+      },
+    });
+    const linksFound = validateLinks(arrayLinks);
+    Promise.all(linksFound)
+      .then((response) => {
+        expect(response).toEqual(arrayLinksValidate);
+        done();
+      });
+  });
+  it('Para la ruta prueba.md deberia retornar un array de links con status -3008 y message fail', (done) => {
+    const arrayLinks = [
+      {
+        href: 'https://nodejs.o/',
+        text: 'Node.js',
+        file: 'prueba.md',
+      },
+    ];
+    const arrayLinksValidate = [
+      {
+        href: 'https://nodejs.o/',
+        text: 'Node.js',
+        file: 'prueba.md',
+        status: -3008,
+        message: 'fail',
+      },
+    ];
+    axios.get.mockRejectedValueOnce({
+      errno: -3008,
+    });
+    const linksFound = validateLinks(arrayLinks);
+    Promise.all(linksFound)
+      .then((response) => {
+        expect(response).toEqual(arrayLinksValidate);
+        done();
+      });
   });
 });
 

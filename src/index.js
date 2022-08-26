@@ -1,10 +1,14 @@
 const fs = require('node:fs');
 const path = require('node:path');
+const axios = require('axios');
 
+// Funcion para verificar si existe una ruta
 const existsPath = (route) => fs.existsSync(route);
 
+// Funcion para verificar la extension de un archivo
 const extNameFile = (route) => path.extname(route);
 
+// Funcion para leer un archivo markdown y obtener los links
 const readFileMd = (file) => {
   const readFile = fs.readFileSync(file, 'utf-8');
   const exp = /\[(.*?)\]\(.*?\)/gm;
@@ -23,10 +27,18 @@ const readFileMd = (file) => {
   return 'No se encontro links';
 };
 
-console.log(readFileMd('./prueba/prueba1.md'));
+// Funcion para hacer las peticiones http de los links que se hubieran encontrado
+const validateLinks = (urls) => {
+  const arrayLinks = urls;
+  return arrayLinks.map((url) => axios.get(url.href)
+    .then((response) => ({ ...url, status: response.status, message: response.statusText }))
+    .catch((error) => (error.response ? { ...url, status: error.response.status, message: 'fail' }
+      : { ...url, status: error.errno, message: 'fail' })));
+};
 
 module.exports = {
   existsPath,
   extNameFile,
   readFileMd,
+  validateLinks,
 };
