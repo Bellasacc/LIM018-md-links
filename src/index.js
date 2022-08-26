@@ -30,19 +30,11 @@ const readFileMd = (file) => {
 // Funcion para hacer las peticiones http de los links que se hubieran encontrado
 const validateLinks = (urls) => {
   const arrayLinks = urls;
-  console.log(arrayLinks);
   return arrayLinks.map((url) => axios.get(url.href)
     .then((response) => ({ ...url, status: response.status, message: response.statusText }))
     .catch((error) => (error.response ? { ...url, status: error.response.status, message: 'fail' }
       : { ...url, status: error.errno, message: 'fail' })));
 };
-// probando la funcion validateLinks
-/* let linksFound = readFileMd('prueba.md');
-linksFound = validateLinks(linksFound);
-Promise.all(linksFound)
-  .then((response) => {
-    console.log(response);
-  }); */
 
 module.exports = {
   existsPath,
