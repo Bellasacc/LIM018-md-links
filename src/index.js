@@ -36,6 +36,21 @@ const validateLinks = (urls) => {
       : { ...url, status: error.errno, message: 'fail' })));
 };
 
+// Funcion para verificar si es un file
+const statFile = (route) => fs.statSync(route).isFile();
+
+// Funcion recursiva para obtener los files de directorios
+const dirOrFile = (router) => {
+  // Preguntando si es un file
+  if (statFile(router)) {
+    return [router];
+  }
+  const filenames = fs.readdirSync(router); // Obteniendo los files de un directorio
+  return filenames.map((file) => dirOrFile(path.join(router, file))).flat();
+};
+const route = 'prueba';
+console.log(dirOrFile(route));
+
 module.exports = {
   existsPath,
   extNameFile,
