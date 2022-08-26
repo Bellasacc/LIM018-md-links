@@ -40,13 +40,13 @@ const validateLinks = (urls) => {
 const statFile = (route) => fs.statSync(route).isFile();
 
 // Funcion recursiva para obtener los files de directorios
-const dirOrFile = (router) => {
+const dirOrFile = (route) => {
   // Preguntando si es un file
-  if (statFile(router)) {
-    return [router];
+  if (statFile(route)) {
+    return [route];
   }
-  const filenames = fs.readdirSync(router); // Obteniendo los files de un directorio
-  return filenames.map((file) => dirOrFile(path.join(router, file))).flat();
+  const filenames = fs.readdirSync(route); // Obteniendo los files de un directorio
+  return filenames.map((file) => dirOrFile(path.join(route, file))).flat();
 };
 const route = 'prueba';
 console.log(dirOrFile(route));
@@ -56,4 +56,6 @@ module.exports = {
   extNameFile,
   readFileMd,
   validateLinks,
+  statFile,
+  dirOrFile,
 };
