@@ -60,6 +60,7 @@ const mdLinks = (route, options) => {
   const promise = new Promise((resolve, reject) => {
     if (existsPath(route)) {
       const links = getLinks(route);
+      console.log(links);
       if (links.length > 0) {
         resolve(links);
       }
@@ -78,5 +79,6 @@ module.exports = {
   validateLinks,
   statFile,
   dirOrFile,
+  getLinks,
   mdLinks,
 };
