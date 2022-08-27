@@ -8,6 +8,7 @@ const {
   validateLinks,
   statFile,
   dirOrFile,
+  getLinks,
 } = require('../src/index');
 
 jest.mock('axios');
@@ -168,6 +169,34 @@ describe('dirOrFile', () => {
       'prueba\\prueba2\\prueba3\\prueba3.txt',
     ];
     expect(dirOrFile('prueba')).toEqual(arrayFiles);
+  });
+});
+
+describe('getLinks', () => {
+  it('Para la ruta prueba deberia retornar un array de links', () => {
+    const arrayLinks = [
+      {
+        href: 'https://es.wikipedia.org/wiki/Markdown',
+        text: 'Markdown',
+        file: 'prueba.md',
+      },
+      { href: 'https://nodejs.o/', text: 'Node.js', file: 'prueba.md' },
+      {
+        href: 'https://user-images.githubusercontent.com/110297/42118443-b7a5f1f0-7bc8-11e8-96ad-9cc5593715a6.jpg',
+        text: 'md-links',
+        file: 'prueba.md',
+      },
+      { href: 'https://www.google.com', text: 'google', file: 'prueba.md' },
+      {
+        href: 'https://developer.mozilla.org/es/docs/Learn/JavaScript/Building_blocks/Functions',
+        text: 'Funciones — bloques de código reutilizables - MDN',
+        file: 'prueba.md',
+      },
+    ];
+    expect(getLinks('prueba.md')).toEqual(arrayLinks);
+  });
+  it('Para la ruta prueba/prueba2/prueba3/prueba3.md, deberia retornar un array vacio', () => {
+    expect(getLinks('prueba/prueba2/prueba3/prueba3.md')).toEqual([]);
   });
 });
 /* describe('mdLinks', () => {
