@@ -55,16 +55,46 @@ const getLinks = (route) => {
   const links = files.map((file) => readFileMd(file)).filter((file) => typeof file !== 'string').flat();
   return links;
 };
-
+const calculateStats = (arrayLinks) => {
+  const stats = {};
+  const arrUnique = [];
+  stats.total = arrayLinks.length;
+  arrayLinks.forEach((element) => {
+    if (arrUnique.indexOf(element.href) === -1) {
+      arrUnique.push(element.href);
+    }
+  });
+  stats.unique = arrUnique.length;
+  stats.broquen = arrayLinks.filter((element) => element.message === 'fail').length;
+  return stats;
+};
 const mdLinks = (route, options) => {
   const promise = new Promise((resolve, reject) => {
     if (existsPath(route)) {
       const links = getLinks(route);
-      console.log(links);
-      if (links.length > 0) {
+      if (options.validate && options.stats) {
+        const validateLinksFile = validateLinks(links);
+        Promise.all(validateLinksFile)
+          .then((response) => {
+            const stats = calculateStats(response);
+            resolve(stats);
+          });
+      } else if (options.validate) {
+        const validateLinksFile = validateLinks(links);
+        Promise.all(validateLinksFile)
+          .then((response) => {
+            resolve(response);
+          });
+      } else if (options.stats) {
+        const validateLinksFile = validateLinks(links);
+        Promise.all(validateLinksFile)
+          .then((response) => {
+            const stats = calculateStats(response);
+            resolve(stats);
+          });
+      } else {
         resolve(links);
       }
-      reject(new Error('No se encontro links'));
     } else {
       reject(new Error('no existe la ruta'));
     }
