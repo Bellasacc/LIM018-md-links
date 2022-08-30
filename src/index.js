@@ -52,7 +52,6 @@ const dirOrFile = (route) => {
 // Obteniendo todos los links encontrados
 const getLinks = (route) => {
   let files = dirOrFile(route);
-  console.log(files);
   files = files.filter((file) => extNameFile(file) === '.md');
   const links = files.map((file) => readFileMd(file)).filter((file) => typeof file !== 'string').flat();
   return links;
@@ -72,6 +71,7 @@ const calculateStats = (arrayLinks) => {
   stats.broquen = arrayLinks.filter((element) => element.message === 'fail').length;
   return stats;
 };
+
 const mdLinks = (route, options) => {
   const promise = new Promise((resolve, reject) => {
     if (existsPath(route)) {
@@ -114,5 +114,6 @@ module.exports = {
   statFile,
   dirOrFile,
   getLinks,
+  calculateStats,
   mdLinks,
 };
