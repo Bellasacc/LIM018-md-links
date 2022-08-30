@@ -49,12 +49,16 @@ const dirOrFile = (route) => {
   return filenames.map((file) => dirOrFile(path.join(route, file))).flat();
 };
 
+// Obteniendo todos los links encontrados
 const getLinks = (route) => {
   let files = dirOrFile(route);
+  console.log(files);
   files = files.filter((file) => extNameFile(file) === '.md');
   const links = files.map((file) => readFileMd(file)).filter((file) => typeof file !== 'string').flat();
   return links;
 };
+
+// Calculando estadisticas
 const calculateStats = (arrayLinks) => {
   const stats = {};
   const arrUnique = [];
