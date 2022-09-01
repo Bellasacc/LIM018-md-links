@@ -1,4 +1,3 @@
-/* const mdLinks = require('../src/index'); */
 const axios = require('axios');
 
 const {
@@ -10,6 +9,7 @@ const {
   dirOrFile,
   getLinks,
   calculateStats,
+  mdLinks,
 } = require('../src/index');
 
 jest.mock('axios');
@@ -260,9 +260,105 @@ describe('calculateStats', () => {
     expect(calculateStats(arrayLinks)).toEqual({ total: 6, unique: 5, broquen: 3 });
   });
 });
-/* describe('mdLinks', () => {
-  it('should...', () => {
-    console.log(mdLinks);
-    console.log('FIX ME!');
+describe('mdLinks', () => {
+  const options = {
+    validate: false,
+    stats: false,
+  };
+  it('Para una ruta que no existe deberia retornar un mensaje de no se existe la ruta', () => {
+    mdLinks('./prueba/test.md', options)
+      .catch((error) => {
+        expect(error.message).toBe('no existe la ruta');
+      });
   });
-}); */
+  // eslint-disable-next-line jest/no-focused-tests
+  it('Para una ruta ./prueba/prueba.md deberia retornar un array de links con los links de este archivo', () => {
+    const arrayLinks = [
+      {
+        href: 'https://es.wikipedia.org/wiki/Markdown',
+        text: 'Markdown',
+        file: './prueba/prueba.md',
+      },
+      {
+        href: 'https://nodejs.o/',
+        text: 'Node.js',
+        file: './prueba/prueba.md',
+      },
+      {
+        href: 'https://user-images.githubusercontent.com/110297/42118443-b7a5f1f0-7bc8-11e8-96ad-9cc5593715a6.jpg',
+        text: 'md-links',
+        file: './prueba/prueba.md',
+      },
+      {
+        href: 'https://www.google.com',
+        text: 'google',
+        file: './prueba/prueba.md',
+      },
+      {
+        href: 'https://developer.mozilla.org/es/docs/Learn/JavaScript/Building_blocks/Functions',
+        text: 'Funciones — bloques de código reutilizables - MDN',
+        file: './prueba/prueba.md',
+      },
+      {
+        href: 'https://developer.mozilla.org/es/docs/Learn/JavaScript/Building_blocks/Functions',
+        text: 'Funciones — bloques de código reutilizables - MDN',
+        file: './prueba/prueba.md',
+      },
+    ];
+    mdLinks('./prueba/prueba.md', options)
+      .then((response) => {
+        expect(response).toEqual(arrayLinks);
+      });
+  });
+  it('Para una ruta ./prueba/prueba.md y opcion --validate deberia retornar un array de links con status y message', () => {
+    /*  const arrayLinks = [
+      {
+        href: 'https://es.wikipedia.org/wiki/Markdown',
+        text: 'Markdown',
+        file: './prueba/prueba.md',
+        status: 200,
+        message: 'OK',
+      },
+      {
+        href: 'https://nodejs.o/',
+        text: 'Node.js',
+        file: './prueba/prueba.md',
+        status: -3008,
+        message: 'fail',
+      },
+      {
+        href: 'https://user-images.githubusercontent.com/110297/42118443-b7a5f1f0-7bc8-11e8-96ad-9cc5593715a6.jpg',
+        text: 'md-links',
+        file: './prueba/prueba.md',
+        status: 200,
+        message: 'OK',
+      },
+      {
+        href: 'https://www.google.com',
+        text: 'google',
+        file: './prueba/prueba.md',
+        status: 200,
+        message: 'OK',
+      },
+      {
+        href: 'https://developer.mozilla.org/es/docs/Learn/JavaScript/Building_blocks/Functions',
+        text: 'Funciones — bloques de código reutilizables - MDN',
+        file: './prueba/prueba.md',
+        status: 404,
+        message: 'fail',
+      },
+      {
+        href: 'https://developer.mozilla.org/es/docs/Learn/JavaScript/Building_blocks/Functions',
+        text: 'Funciones — bloques de código reutilizables - MDN',
+        file: './prueba/prueba.md',
+        status: 404,
+        message: 'fail',
+      },
+    ]; */
+    // options.validate = true;
+    /* mdLinks('./prueba/prueba.md', options)
+      .then((response) => {
+        expect(response).toEqual(arrayLinks);
+      }); */
+  });
+});
