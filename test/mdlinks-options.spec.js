@@ -114,3 +114,13 @@ it('Para una ruta ./prueba/prueba.md y opcion --validate --stats deberia retorna
       done();
     });
 });
+it('Para una ruta ./prueba/prueba.md y opcion --stats deberia retornar un objeto: { total: 6, unique: 5 }', (done) => {
+  const options = {};
+  options.validate = false;
+  options.stats = true;
+  mdLinks('./prueba/prueba.md', options)
+    .then((response) => {
+      expect(response).toEqual({ total: 6, unique: 5 });
+      done();
+    });
+});
