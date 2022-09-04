@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "eslint": "eslint --ext .js src/ test/",
-    "_pretest": "npm run eslint",
+    "pretest": "npm run eslint",
     "test": "jest --coverage"
   },
   "devDependencies": {

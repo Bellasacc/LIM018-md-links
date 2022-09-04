@@ -68,40 +68,39 @@ const calculateStats = (arrayLinks) => {
     }
   });
   stats.unique = arrUnique.length;
-  stats.broquen = arrayLinks.filter((element) => element.message === 'fail').length;
   return stats;
 };
 
 const mdLinks = (route, options) => {
   const promise = new Promise((resolve, reject) => {
-    if (existsPath(route)) {
-      const links = getLinks(route);
-      if (options.validate && options.stats) {
-        const validateLinksFile = validateLinks(links);
-        Promise.all(validateLinksFile)
-          .then((response) => {
-            const stats = calculateStats(response);
-            resolve(stats);
-          });
-      } else if (options.validate) {
-        const validateLinksFile = validateLinks(links);
-        Promise.all(validateLinksFile)
-          .then((response) => {
-            resolve(response);
-          });
-      } else if (options.stats) {
-        const validateLinksFile = validateLinks(links);
-        Promise.all(validateLinksFile)
-          .then((response) => {
-            const stats = calculateStats(response);
-            resolve(stats);
-          });
-      } else {
-        resolve(links);
-      }
-    } else {
+    if (!existsPath(route)) {
       reject(new Error('no existe la ruta'));
     }
+    const links = getLinks(route);
+    if (options.validate && options.stats) {
+      const validateLinksFile = validateLinks(links);
+      Promise.all(validateLinksFile)
+        .then((response) => {
+          const stats = calculateStats(response);
+          stats.broquen = response.filter((element) => element.message === 'fail').length;
+          resolve(stats);
+        });
+      return;
+    }
+    if (options.validate) {
+      const validateLinksFile = validateLinks(links);
+      Promise.all(validateLinksFile)
+        .then((response) => {
+          resolve(response);
+        });
+      return;
+    }
+    if (options.stats) {
+      const stats = calculateStats(links);
+      resolve(stats);
+      return;
+    }
+    resolve(links);
   });
   return promise;
 };
