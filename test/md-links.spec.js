@@ -271,7 +271,6 @@ describe('mdLinks', () => {
         expect(error.message).toBe('no existe la ruta');
       });
   });
-  // eslint-disable-next-line jest/no-focused-tests
   it('Para una ruta ./prueba/prueba.md deberia retornar un array de links con los links de este archivo', () => {
     const arrayLinks = [
       {
