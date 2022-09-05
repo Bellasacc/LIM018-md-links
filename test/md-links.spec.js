@@ -3,6 +3,7 @@ const axios = require('axios');
 const {
   existsPath,
   extNameFile,
+  pathAbsolute,
   readFileMd,
   validateLinks,
   statFile,
@@ -34,6 +35,14 @@ describe('extNameFile', () => {
   });
   it('Para la ruta ../prueba/ejemplo.txt deberia retornar .txt', () => {
     expect(extNameFile('../prueba/ejemplo.txt')).toBe('.txt');
+  });
+});
+describe('pathAbsolute', () => {
+  it('Para la ruta ./prueba/prueba.md deberia retornar D:\\Laboratoria\\LIM018-md-links\\prueba\\prueba.md', () => {
+    expect(pathAbsolute('./prueba/prueba.md')).toBe('D:\\Laboratoria\\LIM018-md-links\\prueba\\prueba.md');
+  });
+  it('Para la ruta D:\\Laboratoria\\LIM018-md-links\\prueba\\prueba.md deberia retornar .md', () => {
+    expect(pathAbsolute('D:\\Laboratoria\\LIM018-md-links\\prueba\\prueba.md')).toBe('D:\\Laboratoria\\LIM018-md-links\\prueba\\prueba.md');
   });
 });
 describe('readFileMd', () => {
@@ -276,32 +285,32 @@ describe('mdLinks', () => {
       {
         href: 'https://es.wikipedia.org/wiki/Markdown',
         text: 'Markdown',
-        file: './prueba/prueba.md',
+        file: 'D:\\Laboratoria\\LIM018-md-links\\prueba\\prueba.md',
       },
       {
         href: 'https://nodejs.o/',
         text: 'Node.js',
-        file: './prueba/prueba.md',
+        file: 'D:\\Laboratoria\\LIM018-md-links\\prueba\\prueba.md',
       },
       {
         href: 'https://user-images.githubusercontent.com/110297/42118443-b7a5f1f0-7bc8-11e8-96ad-9cc5593715a6.jpg',
         text: 'md-links',
-        file: './prueba/prueba.md',
+        file: 'D:\\Laboratoria\\LIM018-md-links\\prueba\\prueba.md',
       },
       {
         href: 'https://www.google.com',
         text: 'google',
-        file: './prueba/prueba.md',
+        file: 'D:\\Laboratoria\\LIM018-md-links\\prueba\\prueba.md',
       },
       {
         href: 'https://developer.mozilla.org/es/docs/Learn/JavaScript/Building_blocks/Functions',
         text: 'Funciones — bloques de código reutilizables - MDN',
-        file: './prueba/prueba.md',
+        file: 'D:\\Laboratoria\\LIM018-md-links\\prueba\\prueba.md',
       },
       {
         href: 'https://developer.mozilla.org/es/docs/Learn/JavaScript/Building_blocks/Functions',
         text: 'Funciones — bloques de código reutilizables - MDN',
-        file: './prueba/prueba.md',
+        file: 'D:\\Laboratoria\\LIM018-md-links\\prueba\\prueba.md',
       },
     ];
     mdLinks('./prueba/prueba.md', options)

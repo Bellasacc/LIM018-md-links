@@ -8,6 +8,9 @@ const existsPath = (route) => fs.existsSync(route);
 // Funcion para verificar la extension de un archivo
 const extNameFile = (route) => path.extname(route);
 
+// Convirtiendo a ruta absoluta
+const pathAbsolute = (route) => (path.isAbsolute(route) ? route : path.resolve(route));
+
 // Funcion para leer un archivo markdown y obtener los links
 const readFileMd = (file) => {
   const readFile = fs.readFileSync(file, 'utf-8');
@@ -76,7 +79,8 @@ const mdLinks = (route, options) => {
     if (!existsPath(route)) {
       reject(new Error('no existe la ruta'));
     }
-    const links = getLinks(route);
+    const routeAbs = pathAbsolute(route);
+    const links = getLinks(routeAbs);
     if (options.validate && options.stats) {
       const validateLinksFile = validateLinks(links);
       Promise.all(validateLinksFile)
@@ -108,6 +112,7 @@ const mdLinks = (route, options) => {
 module.exports = {
   existsPath,
   extNameFile,
+  pathAbsolute,
   readFileMd,
   validateLinks,
   statFile,
