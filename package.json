@@ -1,5 +1,5 @@
 {
-  "name": "@bsacc/md-links",
+  "name": "bsacc-md-links",
   "version": "0.1.0",
   "description": "md-links es una libreria para encontrar, verificar y obtener estadisticas de los links de los archivos de tipo markdown",
   "main": "src/index.js",
