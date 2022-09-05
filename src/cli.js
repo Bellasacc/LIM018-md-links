@@ -18,7 +18,7 @@ if (args.length === 1 && args[0]) {
         console.log(element.file, element.href, element.text);
       });
     }).catch((err) => console.log(err.message));
-} else if (args[0] && args[1] === '--validate' && args[2] === '--stats') {
+} else if ((args[0] && args[1] === '--validate' && args[2] === '--stats') || (args[0] && args[2] === '--validate' && args[1] === '--stats')) {
   options.validate = true;
   options.stats = true;
   mdLinks(path, options)
