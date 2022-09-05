@@ -1,5 +1,91 @@
 # Markdown Links
 
+Markdown links es una libreria que te permitira examinar archivos de tipo markdown, ya se desde un simple archivos o desde un directorio,
+para realizar dicha acción deberá escribir en la linea de comando (CLI) de su terminal una ruta y las opciones necesarias, podras ver los 
+links que contienen, verificar la validez de estos con peticiones http con axios, ademas de estadísticas de la cantidad total, unicos y 
+links rotos.
+
+## Instalar
+
+`npm i bsacc-md-links -g`
+
+## Comandos CLI
+`md-links <path-file-or-dir> [options]`
+
+`<path-file-or-dir>` : ruta de un archivo o de un directorio.
+
+`[options]` : las opciones son las siguientes:
+
+ * `--validate` : con esta opción se hace la petición HTTP.
+
+ * `--stats` : aquí obtendremos estadísticas de los links encontrados, como el total y los links unicos.
+
+ * `--validate --stats`: este devuelve estadísticas mas completas con el total, unicos y links rotos.
+ 
+## Versión
+
+0.1.2
+
+### Ejemplo
+Instalando paquete ...
+
+![Captura-install](https://user-images.githubusercontent.com/104151089/188519746-7dbe7619-b494-42b6-a70c-579699c6e72d.PNG)
+
+Ahora le pasamos una ruta de una carpeta en el CLI
+
+`md-links <path-file-or-dir>`
+
+```sh
+$ md-links ./prueba
+```
+
+![Captura-path](https://user-images.githubusercontent.com/104151089/188520286-441dfa9b-8ccd-4032-9c6f-f74b81009d61.PNG)
+
+#### `--validate`
+
+Aquí le enviaremos la opción `--validate`, escribe la ruta y la opción mencionada.
+
+`md-links <path-file-or-dir> --validate`
+
+```sh
+$ md-links ./prueba --validate
+```
+
+![Captura-validate](https://user-images.githubusercontent.com/104151089/188520367-a108a150-b29f-4305-8db2-7bcd0c6cf578.PNG)
+
+
+#### `--stats`
+
+Aquí le pasaremos la opción `--stats`, escribe la ruta y la opción mencionada.
+
+`md-links <path-file-or-dir> --stats`
+
+```sh
+$ md-links ./prueba --stats
+```
+
+![Captura-stats](https://user-images.githubusercontent.com/104151089/188520388-de1ce47a-3a82-4d38-bcc2-7553b15000bd.PNG)
+
+
+#### `--validate --stats`
+
+También podemos combinar ambas opciones y tendremos estadísticas junta con la respuesta HTTP.
+
+`md-links <path-file-or-dir> --validate --stats`
+
+Ahora escribe la ruta y las opciones mencionadas, nos mostrará el total de links, los unicos y los rotos.
+
+```sh
+$ md-links ./prueba --stats --validate
+```
+
+![Captura-validate-stats](https://user-images.githubusercontent.com/104151089/188520407-e6588226-fb63-4349-b225-171557bee286.PNG)
+
+
+
+# Markdown Links
+
+
 ## Índice
 
 * [1. Preámbulo](#1-preámbulo)
