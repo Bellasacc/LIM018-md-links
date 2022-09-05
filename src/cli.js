@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const { mdLinks } = require('./index');
 
 /* eslint-disable no-console */

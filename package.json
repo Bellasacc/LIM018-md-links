@@ -1,8 +1,21 @@
 {
-  "name": "md-links",
+  "name": "@bsacc/md-links",
   "version": "0.1.0",
-  "description": "libreria links markdown",
+  "description": "md-links es una libreria para encontrar, verificar y obtener estadisticas de los links de los archivos de tipo markdown",
   "main": "src/index.js",
+  "author": {
+    "name": "Bella Sheryl Aguirre Ccahuana",
+    "email": "bellasacc10@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Bellasacc/LIM018-md-links.git"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Bellasacc/LIM018-md-links/issues"
+  },
+  "homepage": "https://github.com/Bellasacc/LIM018-md-links#readme",
   "keywords": [
     "javascript",
     "jest"
@@ -21,6 +34,9 @@
   },
   "engines": {
     "node": ">=16.x"
+  },
+  "bin": {
+    "md-links": "src/cli.js"
   },
   "dependencies": {
     "axios": "^0.27.2"
